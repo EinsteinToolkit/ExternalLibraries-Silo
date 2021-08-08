@@ -1,0 +1,13 @@
+Cactus Code Thorn Silo
+Author(s)    : Roland Haas
+Maintainer(s): Cactus team
+Licence      : GPLv3
+--------------------------------------------------------------------------
+
+1. Purpose
+
+Distribute the Silo library; see https://github.com/astro-informatics/Silo
+
+The SILO code provides functionality to perform fast and exact spin spherical
+harmonic transforms based on the sampling theorem on the sphere derived in
+McEwen & Wiaux (2011).

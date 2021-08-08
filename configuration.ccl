@@ -1,0 +1,11 @@
+# Configuration definitions for thorn Silo
+
+PROVIDES SILO
+{
+  SCRIPT src/detect.sh
+  LANG bash
+  OPTIONS SILO SILO_DIR SILO_INSTALL_DIR SILO_INC_DIRS SILO_LIB_DIRS SILO_LIBS
+}
+
+# Pass configuration options to build script
+REQUIRES SILO HDF5
