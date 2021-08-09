@@ -42,6 +42,8 @@ ${TAR?} xf ${SRCDIR}/../dist/${NAME}.tar
 echo "Silo: Configuring..."
 cd ${NAME}
 
+unset LIBS
+
 if [ "${CCTK_DEBUG_MODE}" = yes ]; then
     SILO_OPTIMISE=
 else
@@ -50,7 +52,16 @@ fi
 
 mkdir build
 cd build
-../configure --disable-fortran ${SILO_OPTIMISE} --with-hdf5=${HDF5_INC_DIRS%% *},${HDF5_LIB_DIRS%% *} --prefix=${INSTALL_DIR}
+# need to extract the actual directory with HDF5 in it from the potentially
+# longer list HDF5 supplied
+HDF5_INC_DIR="`for DIR in $HDF5_INC_DIRS ; do
+  ls 2>/dev/null $DIR/hdf5.h
+done | head -n1 | sed 's!/hdf5\.h$!!'`"
+HDF5_LIB_DIR="`for DIR in $HDF5_LIB_DIRS ; do
+  ls 2>/dev/null $DIR/libhdf5.* $HDF5_LIB_DIRS/hdf5.lib $HDF5_LIB_DIRS/*hdf5.dylib
+done | head -n1 | sed 's!/[^/]*$!!'`"
+
+../configure --disable-fortran ${SILO_OPTIMISE} --with-hdf5=${HDF5_INC_DIR},${HDF5_LIB_DIR} --prefix=${INSTALL_DIR}
 
 echo "Silo: Building..."
 ${MAKE}
