@@ -1,6 +1,6 @@
 # Configuration definitions for thorn Silo
 
-PROVIDES SILO
+PROVIDES Silo
 {
   SCRIPT src/detect.sh
   LANG bash
@@ -8,4 +8,4 @@ PROVIDES SILO
 }
 
 # Pass configuration options to build script
-REQUIRES SILO HDF5
+REQUIRES Silo HDF5
