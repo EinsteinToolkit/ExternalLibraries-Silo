@@ -34,7 +34,7 @@ fi
 # assign default values to variables.
 # Try to find the library if build isn't explicitly requested
 if [ -z "${SILO_BUILD}" -a -z "${SILO_INC_DIRS}" -a -z "${SILO_LIB_DIRS}" -a -z "${SILO_LIBS}" ]; then
-    find_lib SILO amrex 1 1.0 "amrex" "Silo.H" "$SILO_DIR"
+    find_lib SILO silo 1 1.0 "siloh5" "silo.h" "$SILO_DIR"
 fi
 
 THORN=Silo
@@ -63,7 +63,7 @@ if [ -n "$SILO_BUILD" -o -z "${SILO_DIR}" ]; then
     # Fortran modules may be located in the lib directory
     SILO_INC_DIRS="${SILO_DIR}/include ${SILO_DIR}/lib"
     SILO_LIB_DIRS="${SILO_DIR}/lib"
-    SILO_LIBS="amrex"
+    SILO_LIBS="siloh5"
 else
     DONE_FILE=${SCRATCH_BUILD}/done/${THORN}
     if [ ! -e ${DONE_FILE} ]; then
