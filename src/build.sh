@@ -44,6 +44,10 @@ cd ${NAME}
 
 unset LIBS
 
+# Silo fails with HDF5 1.12 due to H5Oget_info silently having changed its API,
+# so force the minimum knonw API to work
+CPPFLAGS="$CPPFLAGS -DH5Oget_info_vers=1 -DH5O_info_t_vers=1"
+
 if [ "${CCTK_DEBUG_MODE}" = yes ]; then
     SILO_OPTIMISE=
 else
