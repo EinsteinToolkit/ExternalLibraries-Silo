@@ -64,6 +64,9 @@ done | head -n1 | sed 's!/hdf5\.h$!!'`"
 HDF5_LIB_DIR="`for DIR in $HDF5_LIB_DIRS ; do
   ls 2>/dev/null $DIR/libhdf5.* $HDF5_LIB_DIRS/hdf5.lib $HDF5_LIB_DIRS/*hdf5.dylib
 done | head -n1 | sed 's!/[^/]*$!!'`"
+export LIBS="$(echo '' $(for dir in ${HDF5_LIBS}; do echo '' $dir; done | sed -e 's/^ /-l/'))"
+export CFLAGS="$LDFLAGS $(echo '' $(for dir in ${HDF5_INC_DIRS}; do echo '' $dir; done | sed -e 's/^ /-I/'))"
+export LDFLAGS="$LDFLAGS $(echo '' $(for dir in ${HDF5_LIB_DIRS}; do echo '' $dir; done | sed -e 's/^ /-L/'))"
 
 ../configure --disable-fortran ${SILO_OPTIMISE} --with-hdf5=${HDF5_INC_DIR},${HDF5_LIB_DIR} --prefix=${INSTALL_DIR}
 
