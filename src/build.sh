@@ -39,8 +39,26 @@ echo "Silo: Unpacking archive..."
 pushd ${BUILD_DIR}
 ${TAR?} xf ${SRCDIR}/../dist/${NAME}.tar
 
-echo "Silo: Configuring..."
 cd ${NAME}
+
+echo "Silo: Applying patches..."
+# H5Pset_fapl_mpiposix has been removed in HDF5 1.8.13 and later
+${PATCH?} -p1 < ${SRCDIR}/../dist/H5Pset_fapl_mpiposix.patch
+# Some (ancient but still used) versions of patch don't support the
+# patch format used here but also don't report an error using the exit
+# code. So we use this patch to test for this
+${PATCH?} -p1 < ${SRCDIR}/../dist/patchtest.patch
+if [ ! -e .patch_tmp ]; then
+    echo 'BEGIN ERROR'
+    echo 'The version of patch is too old to understand this patch format.'
+    echo 'Please set the PATCH environment variable to a more recent '
+    echo 'version of the patch command.'
+    echo 'END ERROR'
+    exit 1
+fi
+rm -f .patch_tmp
+
+echo "Silo: Configuring..."
 
 unset LIBS
 
