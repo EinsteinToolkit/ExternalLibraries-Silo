@@ -14,7 +14,7 @@ set -e                          # Abort on errors
 
 # Set locations
 THORN=Silo
-NAME=silo-4.10.2-bsd
+NAME=silo-4.11
 SRCDIR="$(dirname $0)"
 BUILD_DIR=${SCRATCH_BUILD}/build/${THORN}
 if [ -z "${SILO_INSTALL_DIR}" ]; then
@@ -42,9 +42,8 @@ ${TAR?} xf ${SRCDIR}/../dist/${NAME}.tar
 cd ${NAME}
 
 echo "Silo: Applying patches..."
-# H5Pset_fapl_mpiposix has been removed in HDF5 1.8.13 and later
-${PATCH?} -p1 < ${SRCDIR}/../dist/H5Pset_fapl_mpiposix.patch
-${PATCH?} -p1 < ${SRCDIR}/../dist/config_guess.patch
+${PATCH?} -p1 < ${SRCDIR}/../dist/h5snprintf_syntax.patch
+${PATCH?} -p1 < ${SRCDIR}/../dist/h5zfp.patch
 # Some (ancient but still used) versions of patch don't support the
 # patch format used here but also don't report an error using the exit
 # code. So we use this patch to test for this
@@ -87,7 +86,10 @@ export LIBS="$(echo '' $(for dir in ${HDF5_LIBS}; do echo '' $dir; done | sed -e
 export CFLAGS="$LDFLAGS $(echo '' $(for dir in ${HDF5_INC_DIRS}; do echo '' $dir; done | sed -e 's/^ /-I/'))"
 export LDFLAGS="$LDFLAGS $(echo '' $(for dir in ${HDF5_LIB_DIRS}; do echo '' $dir; done | sed -e 's/^ /-L/'))"
 
-../configure --disable-fortran ${SILO_OPTIMISE} --with-hdf5=${HDF5_INC_DIR},${HDF5_LIB_DIR} --prefix=${INSTALL_DIR}
+
+# ZFP compression leads to compile time failures in zfp due to only some code
+# being awre of using a bns struct rather than globals
+../configure --disable-zfp --disable-fortran ${SILO_OPTIMISE} --with-hdf5=${HDF5_INC_DIR},${HDF5_LIB_DIR} --prefix=${INSTALL_DIR}
 
 echo "Silo: Building..."
 ${MAKE}
