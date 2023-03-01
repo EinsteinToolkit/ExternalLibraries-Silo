@@ -9,3 +9,7 @@ PROVIDES Silo
 
 # Pass configuration options to build script
 REQUIRES Silo HDF5
+
+OPTIONAL MPI
+{
+}
