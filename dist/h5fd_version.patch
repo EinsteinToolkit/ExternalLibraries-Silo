@@ -1,0 +1,16 @@
+diff -ur silo-4.11.orig/src/hdf5_drv/H5FDsilo.c silo-4.11/src/hdf5_drv/H5FDsilo.c
+--- silo-4.11.orig/src/hdf5_drv/H5FDsilo.c	2023-02-28 18:24:25.677576940 -0600
++++ silo-4.11/src/hdf5_drv/H5FDsilo.c	2023-02-28 18:23:41.376589720 -0600
+@@ -541,6 +541,12 @@
+ #endif
+ 
+ static const H5FD_class_t H5FD_silo_g = {
++#if(H5_VERS_MAJOR > 1 || H5_VERS_MINOR > 13 || H5_VERS_RELEASE >= 2)
++    0x01,                                       /* version              */
++#endif
++#if(H5_VERS_MAJOR > 1 || H5_VERS_MINOR > 13 || H5_VERS_RELEASE >= 0)
++    512,                                       /* value                */
++#endif
+     "silo",				        /*name			*/
+     MAXADDR,				        /*maxaddr		*/
+     H5F_CLOSE_WEAK,				/* fc_degree		*/
