@@ -1,16 +1,27 @@
 diff -ur silo-4.11.orig/src/hdf5_drv/H5FDsilo.c silo-4.11/src/hdf5_drv/H5FDsilo.c
---- silo-4.11.orig/src/hdf5_drv/H5FDsilo.c	2023-02-28 18:24:25.677576940 -0600
-+++ silo-4.11/src/hdf5_drv/H5FDsilo.c	2023-02-28 18:23:41.376589720 -0600
-@@ -541,6 +541,12 @@
+--- silo-4.11.orig/src/hdf5_drv/H5FDsilo.c	2021-09-09 14:35:00.000000000 -0500
++++ silo-4.11/src/hdf5_drv/H5FDsilo.c	2023-03-07 13:43:23.000000000 -0600
+@@ -541,6 +541,14 @@
  #endif
  
  static const H5FD_class_t H5FD_silo_g = {
-+#if(H5_VERS_MAJOR > 1 || H5_VERS_MINOR > 13 || H5_VERS_RELEASE >= 2)
++#if HDF5_VERSION_GE(1,13,2)
 +    0x01,                                       /* version              */
 +#endif
-+#if(H5_VERS_MAJOR > 1 || H5_VERS_MINOR > 13 || H5_VERS_RELEASE >= 0)
++#if HDF5_VERSION_GE(1,13,0)
 +    512,                                       /* value                */
 +#endif
      "silo",				        /*name			*/
      MAXADDR,				        /*maxaddr		*/
      H5F_CLOSE_WEAK,				/* fc_degree		*/
+@@ -574,6 +582,11 @@
+     H5FD_silo_truncate,				/*truncate		*/
+     NULL,                                       /*lock                  */
+     NULL,                                       /*unlock                */
++#if HDF5_VERSION_GE(1,13,0)
++    NULL,                                       /*del                   */
++    NULL,                                       /*ctl                   */
++#endif
+     H5FD_FLMAP_SINGLE				/*fl_map		*/
+ };
+ 
