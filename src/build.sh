@@ -84,10 +84,9 @@ done | head -n1 | sed 's!/hdf5\.h$!!'`"
 HDF5_LIB_DIR="`for DIR in $HDF5_LIB_DIRS ; do
   ls 2>/dev/null $DIR/libhdf5.* $HDF5_LIB_DIRS/hdf5.lib $HDF5_LIB_DIRS/*hdf5.dylib
 done | head -n1 | sed 's!/[^/]*$!!'`"
-export LIBS="$(echo '' $(for dir in ${HDF5_LIBS}; do echo '' $dir; done | sed -e 's/^ /-l/'))"
-export CFLAGS="$LDFLAGS $(echo '' $(for dir in ${HDF5_INC_DIRS}; do echo '' $dir; done | sed -e 's/^ /-I/'))"
-export LDFLAGS="$LDFLAGS $(echo '' $(for dir in ${HDF5_LIB_DIRS}; do echo '' $dir; done | sed -e 's/^ /-L/'))"
-
+export LIBS="$(echo '' $(for lib in ${HDF5_LIBS}; do echo '' -l$lib; done))"
+export CFLAGS="$CFLAGS $(echo '' $(for dir in ${HDF5_INC_DIRS}; do echo '' -I${dir}; done))"
+export LDFLAGS="$LDFLAGS $(echo '' $(for dir in ${HDF5_LIB_DIRS}; do echo '' -L${dir} -Wl,-rpath,${dir}; done))"
 
 # ZFP compression leads to compile time failures in zfp due to only some code
 # being awre of using a bns struct rather than globals
