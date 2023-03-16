@@ -1,7 +1,7 @@
 diff -ur silo-4.11.orig/src/hdf5_drv/H5FDsilo.c silo-4.11/src/hdf5_drv/H5FDsilo.c
---- silo-4.11.orig/src/hdf5_drv/H5FDsilo.c	2021-09-09 14:35:00.000000000 -0500
-+++ silo-4.11/src/hdf5_drv/H5FDsilo.c	2023-03-07 13:43:23.000000000 -0600
-@@ -541,6 +541,14 @@
+--- silo-4.11.orig/src/hdf5_drv/H5FDsilo.c	2023-03-16 11:59:40.067570000 -0400
++++ silo-4.11/src/hdf5_drv/H5FDsilo.c	2023-03-16 12:02:08.281511000 -0400
+@@ -541,6 +541,12 @@
  #endif
  
  static const H5FD_class_t H5FD_silo_g = {
@@ -14,7 +14,7 @@ diff -ur silo-4.11.orig/src/hdf5_drv/H5FDsilo.c silo-4.11/src/hdf5_drv/H5FDsilo.
      "silo",				        /*name			*/
      MAXADDR,				        /*maxaddr		*/
      H5F_CLOSE_WEAK,				/* fc_degree		*/
-@@ -574,6 +582,11 @@
+@@ -574,6 +580,10 @@
      H5FD_silo_truncate,				/*truncate		*/
      NULL,                                       /*lock                  */
      NULL,                                       /*unlock                */
