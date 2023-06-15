@@ -1,0 +1,34 @@
+--- a/src/hdf5_drv/silo_hdf5.c
++++ b/src/hdf5_drv/silo_hdf5.c
+@@ -1812,6 +1812,22 @@
+             (*dsnames)[i] = strdup(m.MEMNAME[i]);                \
+         break;                                                   \
+     }
++
++#define DB_OBJ_CASE1(ST, H5MT, MEMNAME)                          \
++    case ST:                                                     \
++    {   H5MT m; int i;                                           \
++        memset(&m, 0, sizeof m);                                 \
++        if ((attr=H5Aopen_name(o, "silo"))<0 ||                  \
++             H5Aread(attr, H5MT##5, &m)<0 ||                     \
++             H5Aclose(attr)<0)                                   \
++             *dscount = 0;                                       \
++        else                                                     \
++             *dscount = 1;                                       \
++        *dsnames = (char **) calloc(*dscount, sizeof(char**));   \
++        if (*dscount)                                            \
++            (*dsnames)[0] = strdup(m.MEMNAME);                   \
++        break;                                                   \
++    }
+ 
+ PRIVATE int
+ db_hdf5_get_obj_dsnames(DBfile *_dbfile, char const *name, int *dscount, char ***dsnames)
+@@ -1867,7 +1888,7 @@
+             DB_OBJ_CASE(DB_POINTVAR, DBpointvar_mt, nvals, data)
+             DB_OBJ_CASE(DB_POINTMESH, DBpointmesh_mt, ndims, coord)
+             DB_OBJ_CASE(DB_CSGVAR, DBcsgvar_mt, nvals, vals)
+-            DB_OBJ_CASE(DB_CURVE, DBcurve_mt, npts?1:1, yvarname)
++            DB_OBJ_CASE1(DB_CURVE, DBcurve_mt, yvarname)
+         }
+         H5Tclose(o);
+ 
