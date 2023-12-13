@@ -26,7 +26,7 @@ export LDFLAGS=${EXTERNAL_LDFLAGS:-${LDFLAGS}}
 
 # Set locations
 THORN=Silo
-NAME=silo-4.11
+NAME=silo-4.11.1
 SRCDIR="$(dirname $0)"
 BUILD_DIR=${SCRATCH_BUILD}/build/${THORN}
 if [ -z "${SILO_INSTALL_DIR}" ]; then
@@ -54,11 +54,6 @@ ${TAR?} xf ${SRCDIR}/../dist/${NAME}.tar
 cd ${NAME}
 
 echo "Silo: Applying patches..."
-${PATCH?} -p1 < ${SRCDIR}/../dist/h5snprintf_syntax.patch
-${PATCH?} -p1 < ${SRCDIR}/../dist/h5zfp.patch
-${PATCH?} -p1 < ${SRCDIR}/../dist/h5pubconf.patch
-${PATCH?} -p1 < ${SRCDIR}/../dist/h5fd_version.patch
-${PATCH?} -p1 < ${SRCDIR}/../dist/dsnames.patch
 # Some (ancient but still used) versions of patch don't support the
 # patch format used here but also don't report an error using the exit
 # code. So we use this patch to test for this
