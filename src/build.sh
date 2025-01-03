@@ -98,7 +98,9 @@ export LDFLAGS="$LDFLAGS $(echo '' $(for dir in ${HDF5_LIB_DIRS} ${SILO_CCTK_LIB
 
 # ZFP compression leads to compile time failures in zfp due to only some code
 # being awre of using a bns struct rather than globals
-../configure --disable-zfp --disable-fortran ${SILO_OPTIMISE} --with-hdf5=${HDF5_INC_DIR},${HDF5_LIB_DIR} --prefix=${INSTALL_DIR}
+# force libdir so that it does not change from lib to lib64 and we can refer to
+# it in detect.sh
+../configure --disable-zfp --disable-fortran ${SILO_OPTIMISE} --with-hdf5=${HDF5_INC_DIR},${HDF5_LIB_DIR} --prefix=${INSTALL_DIR} --libdir=${INSTALL_DIR}/lib
 
 echo "Silo: Building..."
 ${MAKE}
