@@ -1,0 +1,31 @@
+diff -u silo-4.11.1.orig/configure silo-4.11.1/configure
+--- silo-4.11.1.orig/configure	2023-09-12 02:16:21.000000000 -0500
++++ silo-4.11.1/configure	2025-01-03 08:14:25.520869804 -0600
+@@ -4856,27 +4856,6 @@
+ DEFAULT_JSON=""
+ default_detect_readline="yes"
+ 
+-hname="`hostname`"
+-file=$srcdir/config-site/$hname.conf
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for site config host file" >&5
+-$as_echo_n "checking for site config host file... " >&6; }
+-if test -f "$file"; then
+-    . $file
+-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: found $file" >&5
+-$as_echo "found $file" >&6; }
+-else
+-    hname="`hostname | cut -f1 -d.`"
+-    file=$srcdir/config-site/$hname.conf
+-    if test -f "$file"; then
+-        . $file
+-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: found $file" >&5
+-$as_echo "found $file" >&6; }
+-    else
+-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+-$as_echo "no" >&6; }
+-    fi
+-fi
+-
+ case $host_os in
+   aix4.*)
+     host_os_novers=aix4.x
