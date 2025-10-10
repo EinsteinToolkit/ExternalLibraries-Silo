@@ -55,6 +55,7 @@ cd ${NAME}
 
 echo "Silo: Applying patches..."
 ${PATCH?} -p1 < ${SRCDIR}/../dist/config_site.patch
+${PATCH?} -p1 < ${SRCDIR}/../dist/permission_bits.patch
 # Some (ancient but still used) versions of patch don't support the
 # patch format used here but also don't report an error using the exit
 # code. So we use this patch to test for this
