@@ -21,11 +21,6 @@ else
     SILO_BUILD=
 fi
 
-# default value for FORTRAN support
-if [ -z "$SILO_ENABLE_FORTRAN" ] ; then
-    SILO_ENABLE_FORTRAN="OFF"
-fi
-
 ################################################################################
 # Decide which libraries to link with
 ################################################################################
@@ -89,13 +84,6 @@ fi
 # Check for additional libraries
 ################################################################################
 
-# Silo's cmakr script wants to test-compile and needs the extra
-# libraries specified by the user, howerver Cactus does not provide them during
-# the build stage, since it extends them by teh ExternalLibraries generated
-# ones
-SILO_CCTK_LIBS="$LIBS"
-SILO_CCTK_LIBDIRS="$LIBDIRS"
-
 ################################################################################
 # Configure Cactus
 ################################################################################
@@ -103,18 +91,12 @@ SILO_CCTK_LIBDIRS="$LIBDIRS"
 # Pass configuration options to build script
 echo "BEGIN MAKE_DEFINITION"
 echo "SILO_BUILD          = ${SILO_BUILD}"
-echo "SILO_ENABLE_FORTRAN = ${SILO_ENABLE_FORTRAN}"
-echo "LIBSZ_DIR           = ${LIBSZ_DIR}"
-echo "LIBZ_DIR            = ${LIBZ_DIR}"
 echo "SILO_INSTALL_DIR    = ${SILO_INSTALL_DIR}"
-echo "SILO_CCTK_LIBDIRS   = ${SILO_CCTK_LIBDIRS}"
-echo "SILO_CCTK_LIBS      = ${SILO_CCTK_LIBS}"
 echo "END MAKE_DEFINITION"
 
 # Pass options to Cactus
 echo "BEGIN MAKE_DEFINITION"
 echo "SILO_DIR            = ${SILO_DIR}"
-echo "SILO_ENABLE_FORTRAN = ${SILO_ENABLE_FORTRAN}"
 echo "SILO_INC_DIRS       = ${SILO_INC_DIRS} ${ZLIB_INC_DIRS}"
 echo "SILO_LIB_DIRS       = ${SILO_LIB_DIRS} ${ZLIB_LIB_DIRS}"
 echo "SILO_LIBS           = ${SILO_LIBS}"
