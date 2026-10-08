@@ -13,3 +13,8 @@ REQUIRES Silo HDF5
 OPTIONAL MPI
 {
 }
+
+# just in case a self-compiled CMake is required
+OPTIONAL CMake
+{
+}
