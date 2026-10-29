@@ -1,7 +1,7 @@
 # Main make.code.deps file for thorn Silo
 
 export SILO_INSTALL_DIR
-export HDF5_DIR
+export HDF5_DIR HDF5_INC_DIRS
 export CMAKE_DIR
 
 $(CCTK_TARGET) $(OBJS) $(SRCS:%=%.d): $(SCRATCH_BUILD)/done/$(THORN)

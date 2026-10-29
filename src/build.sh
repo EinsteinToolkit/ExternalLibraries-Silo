@@ -22,6 +22,12 @@ export CXXFLAGS=${EXTERNAL_CXXFLAGS:-${CXXFLAGS}}
 export F90FLAGS=${EXTERNAL_F90FLAGS:-${F90FLAGS}}
 export LDFLAGS=${EXTERNAL_LDFLAGS:-${LDFLAGS}}
 
+# Keep HDF5 dependency include paths, including MPI headers when needed.
+for dir in ${HDF5_INC_DIRS}; do
+    CFLAGS="${CFLAGS} -I${dir}"
+    CXXFLAGS="${CXXFLAGS} -I${dir}"
+done
+
 
 
 # Set locations
