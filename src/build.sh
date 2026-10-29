@@ -22,12 +22,6 @@ export CXXFLAGS=${EXTERNAL_CXXFLAGS:-${CXXFLAGS}}
 export F90FLAGS=${EXTERNAL_F90FLAGS:-${F90FLAGS}}
 export LDFLAGS=${EXTERNAL_LDFLAGS:-${LDFLAGS}}
 
-# Keep HDF5 dependency include paths, including MPI headers when needed.
-for dir in ${HDF5_INC_DIRS}; do
-    CFLAGS="${CFLAGS} -I${dir}"
-    CXXFLAGS="${CXXFLAGS} -I${dir}"
-done
-
 
 
 # Set locations
@@ -60,6 +54,7 @@ ${TAR?} xf ${SRCDIR}/../dist/${NAME}.tar
 cd ${NAME}
 
 echo "Silo: Applying patches..."
+${PATCH?} -p1 < ${SRCDIR}/../dist/libs.patch
 # Some (ancient but still used) versions of patch don't support the
 # patch format used here but also don't report an error using the exit
 # code. So we use this patch to test for this
@@ -87,6 +82,13 @@ fi
 
 mkdir build
 cd build
+
+# need to extract the actual directory with HDF5 in it from the potentially
+# longer list HDF5 supplied
+export LIBS="$(echo '' $(for lib in ${HDF5_LIBS} ${SILO_CCTK_LIBS}; do echo '' -l$lib; done))"
+export CFLAGS="$CFLAGS $(echo '' $(for dir in ${HDF5_INC_DIRS}; do echo '' -I${dir}; done))"
+export CXXFLAGS="$CXXFLAGS $(echo '' $(for dir in ${HDF5_INC_DIRS}; do echo '' -I${dir}; done))"
+export LDFLAGS="$LDFLAGS $(echo '' $(for dir in ${HDF5_LIB_DIRS} ${SILO_CCTK_LIBDIRS}; do echo '' -L${dir} -Wl,-rpath,${dir}; done))"
 
 # ZFP compression leads to compile time failures in zfp due to only some code
 # being awre of using a bns struct rather than globals

@@ -84,6 +84,13 @@ fi
 # Check for additional libraries
 ################################################################################
 
+# Silo's cmake script wants to test-compile and needs the extra
+# libraries specified by the user, howerver Cactus does not provide them during
+# the build stage, since it extends them by teh ExternalLibraries generated
+# ones
+SILO_CCTK_LIBS="$LIBS"
+SILO_CCTK_LIBDIRS="$LIBDIRS"
+
 ################################################################################
 # Configure Cactus
 ################################################################################
@@ -92,6 +99,8 @@ fi
 echo "BEGIN MAKE_DEFINITION"
 echo "SILO_BUILD          = ${SILO_BUILD}"
 echo "SILO_INSTALL_DIR    = ${SILO_INSTALL_DIR}"
+echo "SILO_CCTK_LIBDIRS   = ${SILO_CCTK_LIBDIRS}"
+echo "SILO_CCTK_LIBS      = ${SILO_CCTK_LIBS}"
 echo "END MAKE_DEFINITION"
 
 # Pass options to Cactus

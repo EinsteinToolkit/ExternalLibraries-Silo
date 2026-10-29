@@ -1,0 +1,12 @@
+diff -ur Silo-4.12.1.orig/CMakeLists.txt Silo-4.12.1/CMakeLists.txt
+--- Silo-4.12.1.orig/CMakeLists.txt	2026-07-28 00:31:59.000000000 -0700
++++ Silo-4.12.1/CMakeLists.txt	2026-10-29 12:38:13.554040360 -0700
+@@ -54,6 +54,8 @@
+ 
+ cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
+ 
++link_libraries($ENV{LIBS})
++
+ ###
+ # grab the version string
+ ###
