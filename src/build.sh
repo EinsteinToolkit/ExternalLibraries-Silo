@@ -96,7 +96,10 @@ export LDFLAGS="$LDFLAGS $(echo '' $(for dir in ${HDF5_LIB_DIRS} ${SILO_CCTK_LIB
 # it in detect.sh
 # SILO_CONFIG_SITE prevents CMake from loading a file localhost.cmake messeing
 # things up
-${CMAKE_DIR:+${CMAKE_DIR}/bin/}cmake -DSILO_ENABLE_ZFP=OFF -DSILO_ENABLE_FPZIP=OFF -DSILO_ENABLE_FORTRAN=OFF -DCMAKE_BUILD_TYPE=${SILO_BUILD_TYPE} -DSILO_ENABLE_HDF5=ON -DHDF5_ROOT=${HDF5_DIR} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DSILO_CONFIG_SITE=/dev/null -DCMAKE_INSTALL_LIBDIR=${INSTALL_DIR}/lib ..
+# SILO_HDF5_DIR is a fallback hint in case FindHDF5 fails (HDF5_DIR may be /usr
+# but hdf5 is in /usr/lib/x86-amd64/hdf5/hdf5-serial). This will eventually be
+# handled by bash_utils.sh
+${CMAKE_DIR:+${CMAKE_DIR}/bin/}cmake -DSILO_ENABLE_ZFP=OFF -DSILO_ENABLE_FPZIP=OFF -DSILO_ENABLE_FORTRAN=OFF -DCMAKE_BUILD_TYPE=${SILO_BUILD_TYPE} -DSILO_ENABLE_HDF5=ON -DHDF5_ROOT=${HDF5_DIR} ${HDF5_LIB_DIRS:+-DSILO_HDF5_DIR=${HDF5_LIB_DIRS%% *}} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DSILO_CONFIG_SITE=/dev/null -DCMAKE_INSTALL_LIBDIR=${INSTALL_DIR}/lib ..
 
 echo "Silo: Building..."
 ${MAKE}
